@@ -1,4 +1,4 @@
-<h1 align="center" >📱 HACKTOBERFEST 2023 GDG GTBIT - App Dev 📱</h1>
+<h1 align="center" >📱 HACKTOBERFEST 2024 GDG GTBIT - App Dev 📱</h1>
 <h2>
  What is Hacktoberfest?
 </h2>
@@ -12,7 +12,7 @@ If you’ve never contributed to open source before, this is the perfect time to
 How to get Started?
 </h1>
 
-Click on the link to register yourself [here](https://hacktoberfest.digitalocean.com/).
+Click on the link to register yourself [here](https://hacktoberfest.com/auth/).
 
 ## Why should you take part?
 
