@@ -1,17 +1,43 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_adaptive_scaffold/flutter_adaptive_scaffold.dart';
+import 'package:go_router/go_router.dart';
 
-class Homescreen extends StatelessWidget {
+class Homescreen extends StatefulWidget {
   const Homescreen({super.key});
 
   @override
+  State<Homescreen> createState() => _HomescreenState();
+}
+
+class _HomescreenState extends State<Homescreen> {
+  int _selectedIndex = 0;
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+    if (index == 1) {
+      context.go('/settings'); // Navigate to the settings page
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return AdaptiveScaffold(
-      destinations: [
-        NavigationDestination(icon: Icon(Icons.home), label: 'Home'),
-        NavigationDestination(icon: Icon(Icons.settings), label: 'Settings')
-      ], // Add appropriate destinations here if needed
-      body: (context) => buildScaffold(),
+    return Scaffold(
+      body: _selectedIndex == 0 ? buildScaffold() : Container(),
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _selectedIndex,
+        onTap: _onItemTapped,
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.settings),
+            label: 'Settings',
+          ),
+        ],
+      ),
     );
   }
 
@@ -28,19 +54,19 @@ class Homescreen extends StatelessWidget {
             ),
             child: Stack(
               children: <Widget>[
-                Align(
-                  alignment: const Alignment(0, -0.85),
+                const Align(
+                  alignment: Alignment(0, -0.85),
                   child: Text(
                     'Weather App',
                     style: TextStyle(
-                      shadows: const [
+                      shadows: [
                         Shadow(
                           color: Color.fromARGB(48, 0, 0, 0), // Shadow color
                           blurRadius: 5.0, // Blur radius
                           offset: Offset(2.0, 2.0), // Offset for shadow
                         ),
                       ],
-                      color: const Color.fromARGB(255, 255, 255, 255),
+                      color: Color.fromARGB(255, 255, 255, 255),
                       fontFamily: 'Sans',
                       fontSize: 33,
                       fontWeight: FontWeight.w400,
@@ -56,12 +82,12 @@ class Homescreen extends StatelessWidget {
                       borderRadius: BorderRadius.circular(30),
                     ),
                     child: SizedBox(
-                      width: 344,
+                      width: 400,
                       height: 50,
                       child: TextFormField(
                         cursorHeight: 25,
                         decoration: InputDecoration(
-                          labelText: "Search by book name",
+                          labelText: "Search for a city",
                           labelStyle: const TextStyle(
                               color: Color.fromARGB(0, 0, 0, 0)),
                           border: InputBorder.none,
