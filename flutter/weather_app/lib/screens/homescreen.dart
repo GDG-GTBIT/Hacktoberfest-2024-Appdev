@@ -43,6 +43,16 @@ class _HomescreenState extends State<Homescreen> {
 
   Widget buildScaffold() {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('Weather App'),
+        foregroundColor: Theme.of(context).brightness == Brightness.light
+            ? Colors.black
+            : Colors.white,
+        shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.vertical(bottom: Radius.circular(16))),
+        elevation: 0,
+        backgroundColor: Colors.transparent,
+      ),
       body: Stack(
         children: <Widget>[
           Container(
@@ -54,28 +64,8 @@ class _HomescreenState extends State<Homescreen> {
             ),
             child: Stack(
               children: <Widget>[
-                const Align(
-                  alignment: Alignment(0, -0.85),
-                  child: Text(
-                    'Weather App',
-                    style: TextStyle(
-                      shadows: [
-                        Shadow(
-                          color: Color.fromARGB(48, 0, 0, 0), // Shadow color
-                          blurRadius: 5.0, // Blur radius
-                          offset: Offset(2.0, 2.0), // Offset for shadow
-                        ),
-                      ],
-                      color: Color.fromARGB(255, 255, 255, 255),
-                      fontFamily: 'Sans',
-                      fontSize: 33,
-                      fontWeight: FontWeight.w400,
-                      height: 3,
-                    ),
-                  ),
-                ),
                 Align(
-                  alignment: const Alignment(0, -0.6),
+                  alignment: const Alignment(0, -0.95),
                   child: Card(
                     elevation: 15,
                     shape: RoundedRectangleBorder(
@@ -109,7 +99,7 @@ class _HomescreenState extends State<Homescreen> {
                 ),
                 Padding(
                   padding: const EdgeInsets.only(
-                      top: 150.0), // Adjust this value to move the grid lower
+                      top: 0.0), // Adjust this value to move the grid lower
                   child: WeatherGrid(),
                 ),
               ],
@@ -123,10 +113,10 @@ class _HomescreenState extends State<Homescreen> {
 
 class WeatherGrid extends StatelessWidget {
   final List<Map<String, dynamic>> weatherData = [
-    {'name': 'City 1', 'icon': Icons.wb_sunny},
-    {'name': 'City 2', 'icon': Icons.cloud},
-    {'name': 'City 3', 'icon': Icons.ac_unit},
-    {'name': 'City 4', 'icon': Icons.water_drop_outlined},
+    {'name': 'Temperature', 'icon': Icons.wb_sunny},
+    {'name': 'Humidity', 'icon': Icons.cloud},
+    {'name': 'AQI', 'icon': Icons.air},
+    {'name': 'Wind Speed', 'icon': Icons.speed},
   ];
 
   WeatherGrid({super.key});
