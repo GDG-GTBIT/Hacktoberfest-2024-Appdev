@@ -5,11 +5,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.notesapp"
+    namespace = "com.example.notes_app"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.example.notesapp"
+        applicationId = "com.example.notes_app"
         minSdk = 24
         targetSdk = 34
         versionCode = 1
@@ -54,6 +54,8 @@ dependencies {
     implementation(libs.ui.tooling.preview)
     implementation(libs.androidx.activity.compose.v161)
     implementation(libs.androidx.lifecycle.runtime.ktx.v286)
+    implementation(libs.androidx.foundation.android)
+    implementation(libs.androidx.foundation.android)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
