@@ -1,10 +1,4 @@
-import {
-  StyleSheet,
-  Button,
-  View,
-  Text,
-  TextInput,
-} from "react-native";
+import { StyleSheet, Button, View, Text, TextInput } from "react-native";
 import React, { useState } from "react";
 
 function Calculator() {
@@ -14,25 +8,27 @@ function Calculator() {
   const [operation, setOperation] = useState("");
 
   const updateVariable1 = (variable) => {
-    setVar1(Number(variable));
+    setVar1(variable);
   };
 
   const updateVariable2 = (variable) => {
-    setVar2(Number(variable));
+    setVar2(variable);
   };
 
   const handleCalculateButton = () => {
+    const num1 = Number(var1);
+    const num2 = Number(var2);
     if (operation === "+") {
-      setResult(var1 + var2);
+      setResult(num1 + num2);
     } else if (operation === "-") {
-      setResult(var1 - var2);
+      setResult(num1 - num2);
     } else if (operation === "*") {
-      setResult(var1 * var2);
+      setResult(num1 * num2);
     } else if (operation === "/") {
-      if (var2 === 0) {
+      if (num2 === 0) {
         setResult("Can't Divide by Zero");
       } else {
-        setResult(var1 / var2);
+        setResult(num1 / num2);
       }
     } else {
       setResult("Invalid Operation");
@@ -72,7 +68,7 @@ function Calculator() {
         />
         <Text style={styles.input_captions}>Select Operation:</Text>
         <View style={styles.buttonContainer}>
-        <Button
+          <Button
             title="Add"
             color={operation === "+" ? "green" : "orange"}
             onPress={() => setOperation("+")}
@@ -105,7 +101,6 @@ function Calculator() {
       </View>
 
       <Text style={styles.resultText}>Result: {result}</Text>
-     
     </View>
   );
 }
