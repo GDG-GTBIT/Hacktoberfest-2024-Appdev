@@ -1,70 +1,116 @@
-import { Image, StyleSheet, Platform } from 'react-native';
+import { StyleSheet, Button, View, Text, TextInput } from "react-native";
+import React, { useState } from "react";
 
-import { HelloWave } from '@/components/HelloWave';
-import ParallaxScrollView from '@/components/ParallaxScrollView';
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
+function Calculator() {
+  const [var1, setVar1] = useState("");
+  const [var2, setVar2] = useState("");
+  const [result, setResult] = useState("");
 
-export default function HomeScreen() {
+  const updateVariable1 = (variable) => {
+    setVar1(Number(variable));
+  };
+
+  const updateVariable2 = (variable) => {
+    setVar2(Number(variable));
+  };
+
+  const handleCalculateButton = () => {
+    setResult((var1) + (var2));
+  };
+  const handleResetButton = () => {
+    setVar1("");
+    setVar2("");
+    setResult("");
+  };
+
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
+    <View style={styles.main_container}>
+      <View>
+        <Text style={styles.heading}>React-Native Calculator App</Text>
+      </View>
+      <View>
+        <Text style={styles.subheading}>
+          This is a simple addition calculator app
+        </Text>
+      </View>
+
+      <View>
+        <Text style={styles.input_captions}>Enter Your 1st Number:</Text>
+        <TextInput
+          keyboardType="numeric"
+          value={var1}
+          style={styles.input}
+          onChangeText={updateVariable1}
         />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({ ios: 'cmd + d', android: 'cmd + m' })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-        <ThemedText>
-          Tap the Explore tab to learn more about what's included in this starter app.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          When you're ready, run{' '}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
+        <Text style={styles.input_captions}>Enter Your 2nd Number:</Text>
+        <TextInput
+          keyboardType="numeric"
+          value={var2}
+          style={styles.input}
+          onChangeText={updateVariable2}
+        />
+        <View style={styles.buttonContainer}>
+          <Button
+            title="Calculate"
+            onPress={handleCalculateButton}
+            color="green"
+          />
+          <Button title="Reset" onPress={handleResetButton} color="red" />
+        </View>
+      </View>
+      <Text style={styles.resultText}>Result: {result}</Text>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
+  main_container: {
+    backgroundColor: "#f0f4f7",
+    flex: 1,
+    padding: 30,
+    justifyContent: "center",
+    alignItems: "center",
   },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
+  heading: {
+    fontSize: 26,
+    fontWeight: "600",
+    color: "black",
+    marginBottom: 10,
   },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
+  subheading: {
+    fontSize: 16,
+    color: "grey",
+    fontStyle: "italic",
+    marginBottom: 20,
+  },
+  input_captions: {
+    fontSize: 14,
+    color: "grey",
+    marginBottom: 5,
+  },
+  input: {
+    backgroundColor: "white",
+    padding: 15,
+    borderRadius: 8,
+    marginBottom: 20,
+    fontSize: 18,
+    color: "black",
+    borderColor: "lightblue",
+    borderWidth: 1,
+  },
+  buttonContainer: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "center",
+    marginVertical: 20,
+  },
+  resultText: {
+    fontSize: 20,
+    fontWeight: "bold",
+    color: "#1f1f1f",
+    margin: 20,
   },
 });
+
+export default Calculator;
+
