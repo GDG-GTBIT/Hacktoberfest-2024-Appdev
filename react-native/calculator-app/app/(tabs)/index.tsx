@@ -1,4 +1,10 @@
-import { StyleSheet, Button, View, Text, TextInput } from "react-native";
+import {
+  StyleSheet,
+  Button,
+  View,
+  Text,
+  TextInput,
+} from "react-native";
 import React, { useState } from "react";
 
 function Calculator() {
@@ -23,8 +29,8 @@ function Calculator() {
     } else if (operation === "*") {
       setResult(var1 * var2);
     } else if (operation === "/") {
-      if (var2 == 0) {
-        setResult("Cant Divide by Zero");
+      if (var2 === 0) {
+        setResult("Can't Divide by Zero");
       } else {
         setResult(var1 / var2);
       }
@@ -64,14 +70,29 @@ function Calculator() {
           style={styles.input}
           onChangeText={updateVariable2}
         />
-        <Text style={styles.input_captions}>Enter Operation (+, -, *, /):</Text>
-        <TextInput
-          keyboardType="default"
-          value={operation}
-          style={styles.input}
-          onChangeText={setOperation}
-          maxLength={1}
-        />
+        <Text style={styles.input_captions}>Select Operation:</Text>
+        <View style={styles.buttonContainer}>
+        <Button
+            title="Add"
+            color={operation === "+" ? "green" : "orange"}
+            onPress={() => setOperation("+")}
+          />
+          <Button
+            title="Subtract"
+            color={operation === "-" ? "green" : "orange"}
+            onPress={() => setOperation("-")}
+          />
+          <Button
+            title="Multiply"
+            color={operation === "*" ? "green" : "orange"}
+            onPress={() => setOperation("*")}
+          />
+          <Button
+            title="Divide"
+            color={operation === "/" ? "green" : "orange"}
+            onPress={() => setOperation("/")}
+          />
+        </View>
       </View>
 
       <View style={styles.buttonContainer}>
@@ -84,6 +105,7 @@ function Calculator() {
       </View>
 
       <Text style={styles.resultText}>Result: {result}</Text>
+     
     </View>
   );
 }
@@ -145,5 +167,3 @@ const styles = StyleSheet.create({
 });
 
 export default Calculator;
-
-
