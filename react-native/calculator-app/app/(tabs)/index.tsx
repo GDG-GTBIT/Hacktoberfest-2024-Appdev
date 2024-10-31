@@ -8,25 +8,27 @@ function Calculator() {
   const [operation, setOperation] = useState("");
 
   const updateVariable1 = (variable) => {
-    setVar1(Number(variable));
+    setVar1(variable);
   };
 
   const updateVariable2 = (variable) => {
-    setVar2(Number(variable));
+    setVar2(variable);
   };
 
   const handleCalculateButton = () => {
+    const num1 = Number(var1);
+    const num2 = Number(var2);
     if (operation === "+") {
-      setResult(var1 + var2);
+      setResult(num1 + num2);
     } else if (operation === "-") {
-      setResult(var1 - var2);
+      setResult(num1 - num2);
     } else if (operation === "*") {
-      setResult(var1 * var2);
+      setResult(num1 * num2);
     } else if (operation === "/") {
-      if (var2 == 0) {
-        setResult("Cant Divide by Zero");
+      if (num2 === 0) {
+        setResult("Can't Divide by Zero");
       } else {
-        setResult(var1 / var2);
+        setResult(num1 / num2);
       }
     } else {
       setResult("Invalid Operation");
@@ -64,14 +66,29 @@ function Calculator() {
           style={styles.input}
           onChangeText={updateVariable2}
         />
-        <Text style={styles.input_captions}>Enter Operation (+, -, *, /):</Text>
-        <TextInput
-          keyboardType="default"
-          value={operation}
-          style={styles.input}
-          onChangeText={setOperation}
-          maxLength={1}
-        />
+        <Text style={styles.input_captions}>Select Operation:</Text>
+        <View style={styles.buttonContainer}>
+          <Button
+            title="Add"
+            color={operation === "+" ? "green" : "orange"}
+            onPress={() => setOperation("+")}
+          />
+          <Button
+            title="Subtract"
+            color={operation === "-" ? "green" : "orange"}
+            onPress={() => setOperation("-")}
+          />
+          <Button
+            title="Multiply"
+            color={operation === "*" ? "green" : "orange"}
+            onPress={() => setOperation("*")}
+          />
+          <Button
+            title="Divide"
+            color={operation === "/" ? "green" : "orange"}
+            onPress={() => setOperation("/")}
+          />
+        </View>
       </View>
 
       <View style={styles.buttonContainer}>
@@ -145,5 +162,3 @@ const styles = StyleSheet.create({
 });
 
 export default Calculator;
-
-
