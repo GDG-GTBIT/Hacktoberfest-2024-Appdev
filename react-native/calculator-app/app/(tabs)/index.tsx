@@ -4,8 +4,8 @@ import React, { useState } from "react";
 function Calculator() {
   const [var1, setVar1] = useState("");
   const [var2, setVar2] = useState("");
-  const [result, setResult] = useState("");
-  const [operation, setOperation] = useState("");
+  const [operate, setOperate] = useState("");
+  const [result, setResult] = useState("0");
 
   const updateVariable1 = (variable) => {
     setVar1(variable);
@@ -15,31 +15,50 @@ function Calculator() {
     setVar2(variable);
   };
 
-  const handleCalculateButton = () => {
-    const num1 = Number(var1);
-    const num2 = Number(var2);
-    if (operation === "+") {
-      setResult(num1 + num2);
-    } else if (operation === "-") {
-      setResult(num1 - num2);
-    } else if (operation === "*") {
-      setResult(num1 * num2);
-    } else if (operation === "/") {
-      if (num2 === 0) {
-        setResult("Can't Divide by Zero");
-      } else {
-        setResult(num1 / num2);
-      }
+  const ContinousCalculation = (val) => {
+    setVar1(String(val));
+    setVar2("");
+  };
+
+  const HandleAdd = () => {
+    setOperate("+");
+    setResult(Number(var1) + Number(var2));
+    ContinousCalculation(Number(var1) + Number(var2));
+  };
+
+  const HandleSubtraction = () => {
+    setOperate("-");
+    setResult(Number(var1) - Number(var2));
+    ContinousCalculation(Number(var1) - Number(var2));
+  };
+
+  const HandleMultiplication = () => {
+    setOperate("*");
+    setResult(Number(var1) * Number(var2));
+    ContinousCalculation(Number(var1) * Number(var2));
+  };
+
+  const HandleDivision = () => {
+    setOperate("/");
+    if (var2 === "0" || var2 === "") {
+      setResult("Can't divide by zero");
     } else {
-      setResult("Invalid Operation");
+      setResult(Number(var1) / Number(var2));
+      ContinousCalculation(Number(var1) / Number(var2));
     }
   };
 
-  const handleResetButton = () => {
-    setVar1("");
+  const handleClear = () => {
     setVar2("");
     setResult("");
-    setOperation("");
+    setOperate("");
+  };
+
+  const handleClearAll = () => {
+    setVar1("");
+    setVar2("");
+    setOperate("");
+    setResult("0");
   };
 
   return (
@@ -52,14 +71,16 @@ function Calculator() {
       </View>
 
       <View style={styles.inputContainer}>
-        <Text style={styles.input_captions}>Enter Your 1st Number:</Text>
+        <Text style={styles.input_captions}>
+          {result == "0" ? "Enter 1st Number" : "Previous Result"}
+        </Text>
         <TextInput
           keyboardType="numeric"
           value={var1}
           style={styles.input}
           onChangeText={updateVariable1}
         />
-        <Text style={styles.input_captions}>Enter Your 2nd Number:</Text>
+        <Text style={styles.input_captions}>Enter Your Next Number:</Text>
         <TextInput
           keyboardType="numeric"
           value={var2}
@@ -70,34 +91,30 @@ function Calculator() {
         <View style={styles.buttonContainer}>
           <Button
             title="Add"
-            color={operation === "+" ? "green" : "orange"}
-            onPress={() => setOperation("+")}
+            color={operate == "+" ? "green" : "orange"}
+            onPress={HandleAdd}
           />
           <Button
             title="Subtract"
-            color={operation === "-" ? "green" : "orange"}
-            onPress={() => setOperation("-")}
+            color={operate == "-" ? "green" : "orange"}
+            onPress={HandleSubtraction}
           />
           <Button
             title="Multiply"
-            color={operation === "*" ? "green" : "orange"}
-            onPress={() => setOperation("*")}
+            color={operate == "*" ? "green" : "orange"}
+            onPress={HandleMultiplication}
           />
           <Button
             title="Divide"
-            color={operation === "/" ? "green" : "orange"}
-            onPress={() => setOperation("/")}
+            color={operate == "/" ? "green" : "orange"}
+            onPress={HandleDivision}
           />
         </View>
       </View>
 
       <View style={styles.buttonContainer}>
-        <Button
-          title="Calculate"
-          onPress={handleCalculateButton}
-          color="#4CAF50"
-        />
-        <Button title="Reset" onPress={handleResetButton} color="#F44336" />
+        <Button title="Clear" onPress={handleClear} color="#F44336" />
+        <Button title="Clear All" onPress={handleClearAll} color="#F44336" />
       </View>
 
       <Text style={styles.resultText}>Result: {result}</Text>
