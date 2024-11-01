@@ -1,181 +1,187 @@
-import { StyleSheet, Button, View, Text, TextInput } from "react-native";
-import React, { useState } from "react";
+import React, { useState } from 'react';
+import { StyleSheet, Text, TouchableOpacity, View, TextInput } from 'react-native';
 
-function Calculator() {
-  const [var1, setVar1] = useState("");
-  const [var2, setVar2] = useState("");
-  const [operate, setOperate] = useState("");
-  const [result, setResult] = useState("0");
+const App = () => {
+  const [inputValue, setInputValue] = useState('');
+  const [result, setResult] = useState('');
+  const [operator, setOperator] = useState('');
 
-  const updateVariable1 = (variable) => {
-    setVar1(variable);
-  };
-
-  const updateVariable2 = (variable) => {
-    setVar2(variable);
-  };
-
-  const ContinousCalculation = (val) => {
-    setVar1(String(val));
-    setVar2("");
-  };
-
-  const HandleAdd = () => {
-    setOperate("+");
-    setResult(Number(var1) + Number(var2));
-    ContinousCalculation(Number(var1) + Number(var2));
-  };
-
-  const HandleSubtraction = () => {
-    setOperate("-");
-    setResult(Number(var1) - Number(var2));
-    ContinousCalculation(Number(var1) - Number(var2));
-  };
-
-  const HandleMultiplication = () => {
-    setOperate("*");
-    setResult(Number(var1) * Number(var2));
-    ContinousCalculation(Number(var1) * Number(var2));
-  };
-
-  const HandleDivision = () => {
-    setOperate("/");
-    if (var2 === "0" || var2 === "") {
-      setResult("Can't divide by zero");
+  const handlePress = (value) => {
+    if (value === '=') {
+      calculate();
+    } else if (value === 'C') {
+      clearInputs();
     } else {
-      setResult(Number(var1) / Number(var2));
-      ContinousCalculation(Number(var1) / Number(var2));
+      setInputValue((prev) => prev + value);
     }
   };
 
-  const handleClear = () => {
-    setVar2("");
-    setResult("");
-    setOperate("");
+  const calculate = () => {
+    const [num1, num2] = inputValue.split(operator).map(Number);
+    let calculation;
+
+    switch (operator) {
+      case '+':
+        calculation = num1 + num2;
+        break;
+      case '-':
+        calculation = num1 - num2;
+        break;
+      case '*':
+        calculation = num1 * num2;
+        break;
+      case '/':
+        calculation = num2 !== 0 ? num1 / num2 : 'ERROR';
+        break;
+      default:
+        return;
+    }
+
+    setResult(calculation.toString());
+    setInputValue('');
+    setOperator('');
   };
 
-  const handleClearAll = () => {
-    setVar1("");
-    setVar2("");
-    setOperate("");
-    setResult("0");
+  const handleOperator = (op) => {
+    if (inputValue) {
+      setOperator(op);
+      setInputValue((prev) => prev + op);
+    }
+  };
+
+  const clearInputs = () => {
+    setInputValue('');
+    setResult('');
+    setOperator('');
   };
 
   return (
-    <View style={styles.main_container}>
-      <View>
-        <Text style={styles.heading}>React-Native Calculator App</Text>
-        <Text style={styles.subheading}>
-          A simple calculator for basic operations
-        </Text>
-      </View>
-
-      <View style={styles.inputContainer}>
-        <Text style={styles.input_captions}>
-          {result == "0" ? "Enter 1st Number" : "Previous Result"}
-        </Text>
-        <TextInput
-          keyboardType="numeric"
-          value={var1}
-          style={styles.input}
-          onChangeText={updateVariable1}
-        />
-        <Text style={styles.input_captions}>Enter Your Next Number:</Text>
-        <TextInput
-          keyboardType="numeric"
-          value={var2}
-          style={styles.input}
-          onChangeText={updateVariable2}
-        />
-        <Text style={styles.input_captions}>Select Operation:</Text>
-        <View style={styles.buttonContainer}>
-          <Button
-            title="Add"
-            color={operate == "+" ? "green" : "orange"}
-            onPress={HandleAdd}
-          />
-          <Button
-            title="Subtract"
-            color={operate == "-" ? "green" : "orange"}
-            onPress={HandleSubtraction}
-          />
-          <Button
-            title="Multiply"
-            color={operate == "*" ? "green" : "orange"}
-            onPress={HandleMultiplication}
-          />
-          <Button
-            title="Divide"
-            color={operate == "/" ? "green" : "orange"}
-            onPress={HandleDivision}
-          />
-        </View>
-      </View>
-
+    <View style={styles.container}>
+      <TextInput
+        style={styles.input}
+        placeholder="Enter something..."
+        value={inputValue}
+        onChangeText={setInputValue}
+      />
+      <Text style={styles.resultText}>{result}</Text>
       <View style={styles.buttonContainer}>
-        <Button title="Clear" onPress={handleClear} color="#F44336" />
-        <Button title="Clear All" onPress={handleClearAll} color="#F44336" />
+        <TouchableOpacity style={styles.button} onPress={() => handlePress('1')}>
+          <Text style={styles.buttonText}>1</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.button} onPress={() => handlePress('2')}>
+          <Text style={styles.buttonText}>2</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.button} onPress={() => handlePress('3')}>
+          <Text style={styles.buttonText}>3</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.button} onPress={() => handleOperator('+')}>
+          <Text style={styles.buttonText}>+</Text>
+        </TouchableOpacity>
       </View>
-
-      <Text style={styles.resultText}>Result: {result}</Text>
+      <View style={styles.buttonrow2}>
+        <TouchableOpacity style={styles.button} onPress={() => handlePress('4')}>
+          <Text style={styles.buttonText}>4</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.button} onPress={() => handlePress('5')}>
+          <Text style={styles.buttonText}>5</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.button} onPress={() => handlePress('6')}>
+          <Text style={styles.buttonText}>6</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.button} onPress={() => handleOperator('-')}>
+          <Text style={styles.buttonText}>−</Text>
+        </TouchableOpacity>
+      </View>
+      <View style={styles.buttonrow3}>
+        <TouchableOpacity style={styles.button} onPress={() => handlePress('7')}>
+          <Text style={styles.buttonText}>7</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.button} onPress={() => handlePress('8')}>
+          <Text style={styles.buttonText}>8</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.button} onPress={() => handlePress('9')}>
+          <Text style={styles.buttonText}>9</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.button} onPress={() => handleOperator('*')}>
+          <Text style={styles.buttonText}>*</Text>
+        </TouchableOpacity>
+      </View>
+      <View style={styles.buttonrow4}>
+        <View style={styles.zero}>
+          <TouchableOpacity style={styles.button} onPress={() => handlePress('0')}>
+            <Text style={styles.buttonText}>0</Text>
+          </TouchableOpacity>
+        </View>
+        <TouchableOpacity style={styles.button} onPress={() => handlePress('C')}>
+          <Text style={styles.buttonText}>C</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.button} onPress={() => handlePress('=')}>
+          <Text style={styles.buttonText}>=</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.button} onPress={() => handleOperator('/')}>
+          <Text style={styles.buttonText}>/</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
-  main_container: {
-    backgroundColor: "#e0f7fa",
+  container: {
     flex: 1,
-    padding: 20,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  heading: {
-    fontSize: 30,
-    fontWeight: "bold",
-    color: "#00796b",
-    marginBottom: 10,
-    textAlign: "center",
-  },
-  subheading: {
-    fontSize: 16,
-    color: "#004d40",
-    fontStyle: "italic",
-    marginBottom: 20,
-    textAlign: "center",
-  },
-  inputContainer: {
-    width: "100%",
-    paddingHorizontal: 20,
-  },
-  input_captions: {
-    fontSize: 16,
-    color: "#004d40",
-    marginBottom: 5,
+    justifyContent: 'center',
+    alignContent: 'center',
+    padding: 10,
   },
   input: {
-    backgroundColor: "white",
-    padding: 15,
-    borderRadius: 8,
-    marginBottom: 15,
+    height: 50,
+    borderColor: '#FC766AFF',
+    borderWidth: 5,
+    borderRadius: 5,
+    paddingHorizontal: 15,
+    backgroundColor: "lightgrey",
     fontSize: 18,
-    color: "black",
-    borderColor: "#4db6ac",
-    borderWidth: 1,
-  },
-  buttonContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    width: "80%",
-    marginVertical: 20,
+    marginBottom: 20,
   },
   resultText: {
-    fontSize: 22,
-    fontWeight: "bold",
-    color: "#1f1f1f",
-    marginTop: 20,
-    textAlign: "center",
+    fontSize: 40,
+    textAlign: 'right',
+    marginBottom: 20,
+    color: '#FC766AFF',
+  },
+  button: {
+    backgroundColor: "#FC766AFF",
+    borderRadius: 20,
+    margin: 5,
+    padding: 10,
+    borderWidth: 1,
+    borderColor: "white",
+    width: 85,
+  },
+  buttonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+  },
+  buttonrow2: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+  },
+  buttonrow3: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+  },
+  buttonrow4: {
+    flexDirection: "row",
+    justifyContent: 'center',
+  },
+  buttonText: {
+    color: '#FFFFFF',
+    textAlign: 'center',
+    fontSize: 75,
+  },
+  zero: {
+    width: 95,
   },
 });
 
-export default Calculator;
+export default App;
